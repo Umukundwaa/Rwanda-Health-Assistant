@@ -11,6 +11,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
+    "@google/generative-ai": "^0.24.1",
     "africastalking": "^0.7.9",
     "axios": "^1.13.6",
     "cors": "^2.8.6",

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rwanda Health Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="hdr">
+    <div class="hdr-icon">🏥</div>
+    <div>
+      <div class="hdr-title">Rwanda Health Assistant</div>
+      <div class="hdr-sub">AI-powered · Kinyarwanda, English & French</div>
+    </div>
+    <div class="hdr-badge">🇷🇼 Rwanda</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>Your health,<br/><span>guided by AI</span></h2>
+  <p>Describe your symptoms in any language. We'll find the right doctor near you.</p>
+</div>
+
+<!-- STEPS INDICATOR -->
+<div class="steps">
+  <div class="sdot active" id="dot1"><div class="snum">1</div><span class="slabel">Symptoms</span></div>
+  <div class="sdot" id="dot2"><div class="snum">2</div><span class="slabel">Analysis</span></div>
+  <div class="sdot" id="dot3"><div class="snum">3</div><span class="slabel">Hospitals</span></div>
+  <div class="sdot" id="dot4"><div class="snum">4</div><span class="slabel">Book</span></div>
+</div>
+
+<main>
+
+  <!-- STEP 1: SYMPTOMS -->
+  <div class="card" id="step1">
+    <div class="card-hdr">
+      <div class="card-icon">💬</div>
+      <div>
+        <h2>How are you feeling?</h2>
+        <p class="sub">Type in any language — Kinyarwanda, English or French</p>
+      </div>
+    </div>
+    <div class="examples">
+      <span class="ex-tag" onclick="setEx('I have chest pain and difficulty breathing')">💬 "I have chest pain..."</span>
+      <span class="ex-tag" onclick="setEx('Mfite ububabare bwo mu gituza ndetse inkorora')">💬 "Mfite ububabare..."</span>
+      <span class="ex-tag" onclick="setEx(`J'ai mal à la tête et de la fièvre`)">💬 "J'ai mal à la tête..."</span>
+    </div>
+    <textarea id="symptoms" rows="5" placeholder="Describe your symptoms here...&#10;e.g. 'I have a headache and fever' or 'Mfite inkorora n&apos;umuriro'"></textarea>
+    <div id="err1"></div>
+    <button class="btn" onclick="analyzeSymptoms()">Analyze My Symptoms →</button>
+  </div>
+
+  <!-- STEP 2: ANALYSIS RESULT -->
+  <div class="card hidden" id="step2">
+    <div class="card-hdr">
+      <div class="card-icon">🔬</div>
+      <div>
+        <h2>Analysis Result</h2>
+        <p class="sub">Based on your symptoms, here's what we found</p>
+      </div>
+    </div>
+    <div id="analysisResult"></div>
+    <div class="divider"></div>
+    <button class="btn" onclick="findHospitals()">Find Hospitals Near Me →</button>
+  </div>
+
+  <!-- STEP 3: NEARBY HOSPITALS -->
+  <div class="card hidden" id="step3">
+    <div class="card-hdr">
+      <div class="card-icon">📍</div>
+      <div>
+        <h2>Nearby Hospitals</h2>
+        <p class="sub" id="hsub">Finding hospitals near you...</p>
+      </div>
+    </div>
+    <div id="map"></div>
+    <div id="hospitalList"></div>
+  </div>
+
+  <!-- STEP 4: BOOK APPOINTMENT -->
+  <div class="card hidden" id="step4">
+    <div class="card-hdr">
+      <div class="card-icon">📅</div>
+      <div>
+        <h2>Book Appointment</h2>
+        <p class="sub">You'll receive an SMS confirmation on your phone</p>
+      </div>
+    </div>
+
+    <!-- Selected Doctor & Hospital Info -->
+    <div id="selinfo" class="selinfo" style="display:none"></div>
+
+    <!-- Doctor Working Hours Info -->
+    <div id="docHours" class="hours-info" style="display:none"></div>
+
+    <div class="fgroup">
+      <label>Full Name</label>
+      <input type="text" id="pname" placeholder="Your full name"/>
+    </div>
+    <div class="fgroup">
+      <label>Phone Number</label>
+      <input type="tel" id="pphone" placeholder="+250 7XX XXX XXX"/>
+    </div>
+    <div class="form-row">
+      <div class="fgroup">
+        <label>Preferred Date</label>
+        <input type="date" id="pdate" onchange="checkAvailability()"/>
+      </div>
+      <div class="fgroup">
+        <label>Preferred Time</label>
+        <input type="time" id="ptime" min="07:00" max="18:00" onchange="checkAvailability()"/>
+      </div>
+    </div>
+
+    <!-- Availability Check Result -->
+    <div id="availResult"></div>
+
+    <div id="err4"></div>
+    <button class="btn" id="bookBtn" onclick="bookAppointment()">Book & Get SMS Confirmation →</button>
+  </div>
+
+  <!-- STEP 5: SUCCESS -->
+  <div class="card hidden scard" id="step5">
+    <div class="sicon">✅</div>
+    <h2>Appointment Booked!</h2>
+    <p id="smsg">Your appointment has been confirmed. Check your phone for the SMS.</p>
+    <button class="btn" style="max-width:260px;margin:0 auto" onclick="resetApp()">Start New Search</button>
+  </div>
+
+</main>
+
+<!-- LOADING OVERLAY -->
+<div id="loading" class="hidden">
+  <div class="lbox">
+    <div class="spin"></div>
+    <p id="ltxt">Processing...</p>
+    <small id="lsub">Please wait</small>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -59,7 +59,7 @@ This application solves that problem by providing:
 
 ---
 
-## 🔄 API Selection Decision (Important)
+## 🔄 API Selection Decision 
 
 Initially, the project used the **Groq API** for symptom analysis. However:
 

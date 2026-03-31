@@ -302,7 +302,8 @@ Users can:
 
 ## 🎥 Demo Video
 
-https://your-video-link.com
+part1: https://www.loom.com/share/1cf28e249ea44b599bc4bba7e9421bde
+part2:
 
 ---
 

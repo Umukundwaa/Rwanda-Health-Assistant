@@ -303,7 +303,16 @@ Users can:
 ## 🎥 Demo Video
 
 part1: https://www.loom.com/share/1cf28e249ea44b599bc4bba7e9421bde
-part2:
+part2:https://www.loom.com/share/45a05e2f1c9042a0a651ed17ec08a619
+
+so This project is not just an application.
+It is a solution to:
+-Save time
+-Help patients get the right treatment faster
+-Reduce medical delays
+-And improve healthcare access in Rwanda
+
+thank you.
 
 ---
 
